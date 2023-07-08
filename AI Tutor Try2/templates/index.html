@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Input Processor</title>
+</head>
+<body>
+    <h1>Input Processor</h1>
+    <form action="/process" method="post">
+        <label for="user_input">Enter your input:</label>
+        <input type="text" id="user_input" name="user_input">
+        <button type="submit">Process</button>
+    </form>
+    <h2>Result: <span id="result"></span></h2>
+
+    <script>
+        const form = document.querySelector('form');
+        const result = document.getElementById('result');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('/process', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                result.textContent = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
